@@ -1,0 +1,63 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% block content %}
+    <div class="flex justify-between mb-2">
+        <a href="#" onclick="confirm_delete()" class="ml-4"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+        <a href="{% url "article_update" article.id %}" class="mr-4 float-right"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
+    </div>
+    <div class="flex flex-col py-3 w-auto inline-block overflow-auto bg-gray-100 col-start-1 col-span-4 ">
+        <div class="py-4 px-8 bg-white shadow-lg rounded-3xl mb-28 mt-12 mx-8">
+            <div>
+                <h2 class="text-gray-800 text-3xl font-semibold text-center mb-4">{{ article.title }}</h2>
+                <p class="mt-2 text-gray-600">{{ article.body | safe }}</p>
+            </div>
+        </div>
+
+        <!-- 发表评论 -->
+    <hr>
+        <div class="mx-8">
+            <form action="{% url 'post_comment' article.id %}" method="POST">
+            {% csrf_token %}
+                <div class="form-group">
+                    <label for="body">
+                        <strong>我也要发言：</strong>
+                    </label>
+                    <textarea type="text" class="form-control" id="body" name="body" rows="2"></textarea>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="bg-gray-600 rounded-lg font-bold text-white text-center px-4 py-2 transition duration-300 ease-in-out hover:bg-green-600 float-right">发送</button>
+            </form>
+        </div>
+        <br>
+    <!-- 显示评论 -->
+    <h4 class="mx-8">共有{{ comments.count }}条评论</h4>
+    <div class="mb-28">
+        {% for comment in comments %}
+            <hr>
+            <p class="mx-8 mt-3 mb-1">
+                <strong style="color: pink">{{ comment.user | default_if_none:'匿名'}}</strong> 于
+                <span style="color: green">{{ comment.created|date:"Y-m-d H:i:s" }}</span> 时说：
+            </p>
+            <pre style="font-family: inherit; font-size: 1em;">
+                {{ comment.body | safe}}</pre>
+        {% endfor %}
+    </div>
+    </div>
+    <script>
+        // 删除文章的函数
+        function confirm_delete() {
+            // 调用layer弹窗组件
+            layer.open({
+                // 弹窗标题
+                title: "确认删除",
+                // 正文
+                content: "确认删除这篇文章吗？",
+                // 点击确定按钮后调用的回调函数
+                yes: function(index, layero) {
+                    // 指定应当前往的 url
+                    location.href='{% url "article_delete" article.id %}'
+                },
+            })
+        }
+    </script>
+{% endblock %}

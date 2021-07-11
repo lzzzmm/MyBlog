@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+<<!-- component -->
+<!-- light mode -->
+{% block content %}
+<div class="ml-10 ">
+    <i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModalCenter"></i>
+</div>
+<form method="post" action="{% url 'mysource' %}">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">新建分类</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="新建分类名称" name="mysource">
+          <textarea type="text" name="note" placeholder="备注" class="form-control mt-2"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">新建</button>
+      </div>
+    </div>
+    </div>
+    </div>
+</form>
+
+
+{% if sources.exists %}
+    <div class="grid mt-8 gap-8 grid-cols-1 md:grid-cols-3 xl:grid-cols-2 mb-28 mx-4">
+    {% for source in sources %}
+        {% if forloop.counter|divisibleby:2 %}
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 ">
+            <div class="overflow-hidden shadow-md rounded-xl">
+            <!-- card header -->
+                <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold uppercase">
+                {{ source.mysource }}
+                <a href="#" onclick="confirm({{ source.id }})" class="float-right text-gray-400 hover:text-gray-700"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+            </div>
+            <!-- card body -->
+                    <div class="p-6 bg-white border-b border-gray-200 w-60">
+                {{ source.note }}
+            </div>
+                <form method="post" action="{% url 'Mysource_update' source.id %}">
+                    {% csrf_token %}
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">修改分类</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <input type="text" class="form-control" placeholder="新建分类名称" name="mysource" value="{{ source.mysource}}">
+                             <textarea type="text" name="note" placeholder="备注" class="form-control mt-2">{{ source.note }}</textarea>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">新建</button>
+                          </div>
+                        </div>
+                        </div>
+                    </div>
+                    </form>
+            <!-- card footer -->
+                <div class="p-6 bg-white border-gray-200 text-right">
+                <!-- button link -->
+                <form method="post" action="{% url 'Mysource_detail' %}">
+                    {% csrf_token %}
+                <button class="bg-green-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-green-400 rounded uppercase" name="mysource_id" value="{{ source.id }}"
+                    type="submit">点击查看</button>
+                </form>
+            </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            <div class="overflow-hidden shadow-md text-gray-100 rounded-xl">
+            <!-- card header -->
+            <div class="px-6 py-4 bg-gray-800 border-b border-gray-600 font-bold uppercase">
+                {{ source.mysource }}
+                <a href="#" onclick="confirm({{ source.id }})" class="float-right text-gray-400 hover:text-white"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+            </div>
+
+            <!-- carr body -->
+                <div class="p-6 bg-gray-800 border-b border-gray-600 w-60">
+                     {{ source.note }}
+                 </div>
+            <!-- card footer -->
+            <div class="p-6 bg-gray-800 border-gray-200 text-right">
+                <!-- button link -->
+                <form method="post" action="{% url 'Mysource_detail' %}">
+                {% csrf_token %}
+                <button class="bg-green-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-green-400 rounded uppercase" name="mysource_id" value="{{ source.id }}"
+                    type="submit">点击查看</button>
+                </form>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+        <script>
+    // 删除文章的函数
+    function confirm(id) {
+        // 调用layer弹窗组件
+        layer.open({
+            // 弹窗标题
+            title: "确认删除",
+            // 正文
+            content: "确认删除吗？",
+            // 点击确定按钮后调用的回调函数
+            yes: function(index, layero) {
+                // 指定应当前往的 url
+                location.href='../Mysource_delete/'+id+'/'
+            },
+        })
+    }
+</script>
+    {% endfor %}
+    </div>
+{% else %}
+    没有
+{% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="flex flex-col py-3 w-auto inline-block overflow-auto bg-gray-100 items-center">
+             {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" class="h-24 rounded-full ">
+            {% else %}
+                <h5 >暂无头像</h5>
+            {% endif %}
+            <div class="mt-2 h5">{{ user.username }}</div>
+            <hr>
+            <form method="post" action="." class="mb-20 w-5/6" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="-m-2">
+                    <label for="avatar" class="mt-12">上传头像</label>
+                    <input type="file" class="form-control-file" name="avatar" id="avatar">
+                </div>
+                <hr class="mt-10 col-span-6">
+                <!-- phone -->
+                <div class="-m-2  mt-8">
+                    <label for="phone">电话</label>
+                    <input type="text" class=" w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-blue-500 transition-colors" id="phone" name="phone" value="{{ profile.phone }}">
+                </div>
+                <!-- bio -->
+                <div class="-m-2 mt-8">
+                    <label for="bio">简介</label>
+                    <textarea type="text" class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-blue-500 transition-colors" id="bio" name="bio" rows="12">{{ profile.bio }}</textarea>
+                </div>
+                <!-- 提交按钮 -->
+                <button type="submit" class="float-right bg-gray-600 rounded-lg font-bold text-white text-center px-4 py-2 transition duration-300 ease-in-out hover:bg-green-600 mt-8 col-start-5 col-start-5">提交</button>
+            </form>
+    </div>
+{% endblock content %}

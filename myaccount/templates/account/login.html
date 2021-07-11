@@ -1,0 +1,44 @@
+{% include 'header.html' %}
+{% load bootstrap4 %}
+
+{% bootstrap_form_errors form %}
+<form method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    <div class="flex-col bg-gray-800 h-screen w-screen flex items-center justify-center font-sans ">
+        <div class="bg-gray-600 rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg md:max-w-2xl">
+            <div class="mb-4">
+                  <h1 class="text-white mb-3">用户名</h1>
+                  <input
+                    class="border border-gray-800 focus:border-blue-500 rounded w-full py-2 px-3 mr-4 text-black"
+                    placeholder="请输入用户名" type="text" name="login"
+                    v-model="msg"
+                  />
+              </div>
+            <div class="mb-4">
+                  <h1 class="text-white mb-3">密码</h1>
+                  <input
+                    class="border border-gray-800 focus:border-blue-500 rounded w-full py-2 px-3 mr-4 text-black"
+                    placeholder="请输入密码" type="password" name="password"
+                    v-model="msg"
+                  />
+              </div>
+            <button type="submit" class="mt-3 bg-green-700 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                    登陆
+                </button>
+            <div class="mt-10 justify-between flex ">
+                <a class="text-white" href="{% url 'account_signup' %}">注册</a>
+                <a class="text-white align-self-end" href="{% url 'account_reset_password' %}">忘记密码</a>
+            </div>
+        </div>
+        <div class="w-full bg-gray-800 flex items-center justify-center font-sans md:max-w-2xl">
+            <div class="bg-gray-600 rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
+                <div class="mb-4">
+                    <h1 class="text-white">lzz_zmm的博客</h1>
+                    <div class="flex mt-4 text-white">
+                            花若解语还多事，石不能言最可人
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+<!-- component -->
+{% block content %}
+<!-- Button trigger modal -->
+
+<div class="ml-10 ">
+    <i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModalCenter"></i>
+</div>
+<!-- Modal -->
+<form method="post" action="{% url 'classification' %}">
+{% csrf_token %}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">新建分类</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="新建分类名称" name="title">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" class="btn btn-primary">新建</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<!-- component -->
+<div class="relative  flex flex-col items-center justify-center mx-8">
+    <div class="grid mt-8  gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 mb-28">
+        {% for title in titles %}
+        <div class="flex flex-col">
+            <div class="bg-white shadow-md  rounded-3xl p-4">
+                <div class="flex-none lg:flex">
+                    <div class=" h-full w-full lg:h-48 lg:w-48   lg:mb-0 mb-3">
+                        <img src="https://images.unsplash.com/photo-1622180203374-9524a54b734d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
+                            alt="Just a flower" class=" w-full  object-scale-down lg:object-cover  lg:h-48 rounded-2xl">
+                    </div>
+                    <div class="flex-auto ml-3 justify-evenly py-2">
+                        <h2 class="flex-auto text-lg font-medium">{{ title }}</h2>
+                        <p class="mt-3"></p>
+                        <div class="flex py-4  text-sm text-gray-600">
+
+                            <div class="flex-1 inline-flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="">{{ title.created.date }}</p>
+                            </div>
+                        </div>
+                        <div class="flex px-4 pb-2 border-t border-gray-200 "></div>
+                        <div class=" space-x-3 text-sm font-medium py-3">
+                            <form method="post" action='{% url 'classification_detail' %}' class="flex justify-center">
+                                {% csrf_token %}
+                                <button onclick="location.href='{% url 'classification_detail' %}'" value='{{ title }}' name="title"
+                                class="mb-2 md:mb-0 bg-gray-900 px-20 md:px-12 shadow-sm tracking-normal text-white rounded-full hover:bg-gray-800 py-3"
+                                type="submit" aria-label="like" >查看</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

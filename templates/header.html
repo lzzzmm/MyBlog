@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>lzz_zmm的博客</title>
+    {# bootstrap #}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% bootstrap_messages %}
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- bootstrap.js 依赖 jquery.js 和popper.js，因此在这里引入 -->
+    <script src="{% static 'jquery/jquery.js' %}"></script>
+    <!-- 引入layer.js -->
+    <script src="{% static 'layer/layer.js' %}"></script>
+    {# tailwind #}
+    <link href="{% static 'tailwind.min.css' %}" rel="stylesheet">
+    <!--兼容手机端-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <style type="text/css">
+        a , a:hover{
+            text-decoration: none;
+        }
+    </style>
+</head>
