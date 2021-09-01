@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^pruml#x@nci28dc71v457udkl2uaaehyu3+x%*76&90la#coi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'password_reset',
     'myaccount',
+    'myaccount.templatetags',
     'article',
     'django.contrib.sites',
     'allauth',
@@ -107,6 +108,21 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # 数据库引擎
+        'NAME': 'myblog', # 数据库名
+        'USER': 'root', # 账号
+        'PASSWORD': '111111', # 密码
+        'HOST': '127.0.0.1', # HOST
+        'POST': 3306, # 端口
+
+    }
+}
+'''
 
 
 # Password validation

@@ -1,21 +1,93 @@
 {% extends 'base.html' %}
 {% block content %}
+    <div class="ml-10 mb-6">
+        <i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModalCenter"></i>
+    </div>
+    <form method="post" action="{% url 'Mysource_detail_add' mysource_id%}">
+        {% csrf_token %}
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">新建</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" placeholder="新建链接名称" name="name">
+            <input type="text" class="form-control mt-2" placeholder="新建链接地址" name="link_address">
+            <textarea type="text" name="note" placeholder="备注" class="form-control mt-2"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">新建</button>
+          </div>
+        </div>
+        </div>
+        </div>
+    </form>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mx-8 ">
     {% for source in sources %}
-        <a href="{{ source.link_address }}">
-        <div class="pl-4 pt-4 bg-white rounded shadow-sm h-36">
-                <div class="flex pt-1">
-					<div class="text-2xl font-bold text-gray-700 ">{{ source.name }}</div>
-				</div>
-				<div class="pt-2 text-base text-gray-400 ">{{ source.note | slice:"20"}}</div>
-			</div>
-        </a>
+        <div class="h-26 bg-white rounded shadow-sm ">
+            <a href="{{ source.link_address }}" target="_blank">
+            <div class="p-2">
+                    <div class="flex pt-1">
+                        <div class="text-xl font-bold text-gray-700 ">{{ source.name }}</div>
+                    </div>
+                    <div class="pt-2 text-sm text-gray-400 h-6">{{ source.note | default_if_none:""}}</div>
+                </div>
+            </a>
+            <div class="flex justify-between">
+            <a data-toggle="modal" data-target="#_{{ source.name }}" class="mx-2 text-sm text-gray-200 hover:text-gray-600"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a href="#" onclick="confirm({{ mysource_id }}, {{ source.id }})" class="mx-2 text-sm text-gray-200 hover:text-gray-600"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+            </div>
+        <form method="post" action="{% url 'Mysource_detail_update' mysource_id source.id %}">
+            {% csrf_token %}
+                <input name="Mysource_id" value="{{ mysource_id }}" type="hidden">
+            <div class="modal fade" id="_{{ source.name }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><span class="text-gray-600">修改</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <input type="text" class="form-control" placeholder="修改链接名称" name="name" value="{{ source.name}}">
+                      <input type="text" class="form-control" placeholder="修改链接地址" name="link_address" value="{{ source.link_address}}">
+                      <textarea type="text" name="note" placeholder="备注" class="form-control mt-2">{{ source.note | default_if_none:""}}</textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">新建</button>
+                  </div>
+                </div>
+                </div>
+            </div>
+        </form>
+        </div>
 
+ <script>
+    // 删除文章的函数
+    function confirm(id, pk) {
+        // 调用layer弹窗组件
+        layer.open({
+            // 弹窗标题
+            title: "确认删除",
+            // 正文
+            content: "确认删除吗？",
+            // 点击确定按钮后调用的回调函数
+            yes: function(index, layero) {
+                // 指定应当前往的 url
+                location.href='../../Mysource_detail_delete/'+id+'/'+pk+'/'
+            },
+        })
+    }
+</script>
     {% endfor %}
     </div>
-
-
-
 
 {% endblock %}

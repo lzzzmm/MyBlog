@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 
-admin.site.register(User_img)
+# admin.site.register(User_img)
 # 重新注册 User
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
