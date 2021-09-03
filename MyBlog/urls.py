@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.staticfiles.views import serve
-from django.urls import path, include
+from django.views.static import serve
+from django.urls import path, include, re_path
 
 from MyBlog import settings
 from MyBlog.settings import MEDIA_ROOT
@@ -31,7 +31,8 @@ urlpatterns = [
     path('comment/', include('comment.urls')),
     path('password-reset/', include('password_reset.urls')),
     path('mysoutce/', include('mysource.urls')),
-    #url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+    #url(r'media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
 
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
