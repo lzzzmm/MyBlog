@@ -24,5 +24,7 @@ class UserAdmin(BaseUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
+#admin.site.register(User_img)
+
 admin.site.site_header = "lzz_zmm博客管理后台"
 admin.site.site_title = "lzz_zmm博客管理后台"
